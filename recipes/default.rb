@@ -46,7 +46,12 @@ template '/var/lib/solr.start' do
 end
 
 template '/etc/init.d/solr' do
-  source 'initd.erb'
+  case node['platform_family']
+  when 'debian', 'ubuntu'
+    source 'initd.debian.erb'
+  else
+    source 'initd.erb'
+  end
   owner 'root'
   group 'root'
   mode '0755'
